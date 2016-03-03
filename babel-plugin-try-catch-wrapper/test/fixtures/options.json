@@ -1,0 +1,7 @@
+{
+  "plugins": [
+    ["try-catch-wrapper", {
+      "reportError": "reportError"
+    }]
+  ]
+}
