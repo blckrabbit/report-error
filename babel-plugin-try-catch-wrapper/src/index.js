@@ -58,17 +58,25 @@ const shouldSkip = (() => {
       records.set(nodeType, new Set)
     }
     const recordsOfThisType = records.get(nodeType)
-    const sourceLocation = `${state.file.opts.filenameRelative}:${path.node.start}-${path.node.end}`
+    const sourceLocation = `${filename}:${path.node.start}-${path.node.end}`
     const hasRecord = recordsOfThisType.has(sourceLocation)
     recordsOfThisType.add(sourceLocation)
     return hasRecord
   }
 })()
 
+// filename of which is being processed
+let filename
+
 module.exports = {
-  pre() {
+  pre(file) {
     if (!this.opts.reportError) {
       throw new Error('babel-ie-catch: You must pass in the function name reporting error')
+    }
+
+    filename = file.opts.filenameRelative || this.opts.filename
+    if (!filename) {
+      throw new Error('babel-plugin-try-catch-wrapper: If babel cannot grab filename, you must pass it in')
     }
   },
   visitor: {
@@ -86,7 +94,7 @@ module.exports = {
 
         const programBody = wrapProgram({
           BODY: body,
-          FILENAME: t.StringLiteral(state.file.opts.filenameRelative),
+          FILENAME: t.StringLiteral(filename),
           FUNCTION_NAME: t.StringLiteral('top-level code'),
           LINE_START: t.NumericLiteral(path.node.loc.start.line),
           LINE_END: t.NumericLiteral(path.node.loc.end.line),
@@ -121,7 +129,7 @@ module.exports = {
 
         path.get('body').replaceWith(wrapFunction({
           BODY: body,
-          FILENAME: t.StringLiteral(state.file.opts.filenameRelative),
+          FILENAME: t.StringLiteral(filename),
           FUNCTION_NAME: t.StringLiteral(functionName),
           LINE_START: t.NumericLiteral(loc.start.line),
           LINE_END: t.NumericLiteral(loc.end.line),

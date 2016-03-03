@@ -41,17 +41,25 @@ var shouldSkip = function () {
       records.set(nodeType, new Set());
     }
     var recordsOfThisType = records.get(nodeType);
-    var sourceLocation = state.file.opts.filenameRelative + ':' + path.node.start + '-' + path.node.end;
+    var sourceLocation = filename + ':' + path.node.start + '-' + path.node.end;
     var hasRecord = recordsOfThisType.has(sourceLocation);
     recordsOfThisType.add(sourceLocation);
     return hasRecord;
   };
 }();
 
+// filename of which is being processed
+var filename = undefined;
+
 module.exports = {
-  pre: function pre() {
+  pre: function pre(file) {
     if (!this.opts.reportError) {
       throw new Error('babel-ie-catch: You must pass in the function name reporting error');
+    }
+
+    filename = file.opts.filenameRelative || this.opts.filename;
+    if (!filename) {
+      throw new Error('babel-plugin-try-catch-wrapper: If babel cannot grab filename, you must pass it in');
     }
   },
 
@@ -70,7 +78,7 @@ module.exports = {
 
         var programBody = wrapProgram({
           BODY: body,
-          FILENAME: t.StringLiteral(state.file.opts.filenameRelative),
+          FILENAME: t.StringLiteral(filename),
           FUNCTION_NAME: t.StringLiteral('top-level code'),
           LINE_START: t.NumericLiteral(path.node.loc.start.line),
           LINE_END: t.NumericLiteral(path.node.loc.end.line),
@@ -105,7 +113,7 @@ module.exports = {
 
         path.get('body').replaceWith(wrapFunction({
           BODY: body,
-          FILENAME: t.StringLiteral(state.file.opts.filenameRelative),
+          FILENAME: t.StringLiteral(filename),
           FUNCTION_NAME: t.StringLiteral(functionName),
           LINE_START: t.NumericLiteral(loc.start.line),
           LINE_END: t.NumericLiteral(loc.end.line),
