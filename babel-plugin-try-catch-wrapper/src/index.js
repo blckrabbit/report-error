@@ -74,7 +74,7 @@ module.exports = {
       throw new Error('babel-ie-catch: You must pass in the function name reporting error')
     }
 
-    filename = file.opts.filenameRelative || this.opts.filename
+    filename = this.opts.filename || file.opts.filenameRelative
     if (!filename) {
       throw new Error('babel-plugin-try-catch-wrapper: If babel cannot grab filename, you must pass it in')
     }
