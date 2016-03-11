@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
-var babel = require('babel-plugin-try-catch-wrapper/lib/babel');
+var babel = require('babel-core');
 var path = require('path');
 var through = require('through2');
 

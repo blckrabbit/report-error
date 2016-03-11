@@ -1,7 +1,7 @@
 'use strict'
 
 const _ = require('lodash')
-const babel = require('babel-plugin-try-catch-wrapper/lib/babel')
+const babel = require('babel-core')
 const path = require('path')
 const through = require('through2')
 
