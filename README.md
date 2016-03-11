@@ -31,6 +31,7 @@ report js runtime error
         e._stack = (e.name + ': ' + e.message)
 
         setTimeout(function() {
+          delete records[e._t]
           // ignore resolved error
           if (e._r) {
             return
@@ -39,8 +40,6 @@ report js runtime error
           //!!! IMPORTANT add your own code reporting unresolved errors here below
           console.log(e._t, e._stack)
           //!!! IMPORTANT add your own code reporting unresolved errors here above
-
-          delete records[e._t]
         }, 10)
       }
       if (filename) {
