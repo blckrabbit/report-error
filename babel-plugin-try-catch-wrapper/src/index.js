@@ -94,10 +94,7 @@ module.exports = {
 
         const loc = path.node.loc
         const errorVariableName = path.scope.generateUidIdentifier('e')
-if (errorVariableName.name === '_e5') {
-	const name = '_e3'
-	console.log(path.scope.hasOwnBinding(name), path.scope.parentHasBinding(name), path.scope.hasUid(name), path.scope.hasGlobal(name), path.scope.hasReference(name))
-}
+
         const programBody = wrapProgram({
           BODY: body,
           FILENAME: t.StringLiteral(filename),
