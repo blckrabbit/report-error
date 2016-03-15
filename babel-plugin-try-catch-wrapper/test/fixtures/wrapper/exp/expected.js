@@ -2,13 +2,13 @@ try {
   var f = function f() {
     try {
       console.log(arguments);
-    } catch (e) {
-      reportError(e, "wrapper/exp/expected.js", "anonymous function", 1, 3);
-      throw e;
+    } catch (_e) {
+      reportError(_e, "wrapper/exp/expected.js", "anonymous function", 1, 3);
+      throw _e;
     }
   };
 
   var g = function () {};
-} catch (e) {
-  reportError(e, "wrapper/exp/expected.js", "top-level code", 1, 5);
+} catch (_e2) {
+  reportError(_e2, "wrapper/exp/expected.js", "top-level code", 1, 5);
 }

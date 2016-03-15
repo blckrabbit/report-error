@@ -18,19 +18,19 @@ try {
               delete e._r;
               throw e;
             }
-          } catch (e) {
-            reportError(e, "wrapper/rethrow-in-nested-block/expected.js", "anonymous function", 6, 13);
-            throw e;
+          } catch (_e) {
+            reportError(_e, "wrapper/rethrow-in-nested-block/expected.js", "anonymous function", 6, 13);
+            throw _e;
           }
         })();
         delete e._r;
         throw e;
       }
-    } catch (e) {
-      reportError(e, "wrapper/rethrow-in-nested-block/expected.js", "g", 1, 16);
-      throw e;
+    } catch (_e2) {
+      reportError(_e2, "wrapper/rethrow-in-nested-block/expected.js", "g", 1, 16);
+      throw _e2;
     }
   }
-} catch (e) {
-  reportError(e, "wrapper/rethrow-in-nested-block/expected.js", "top-level code", 1, 16);
+} catch (_e3) {
+  reportError(_e3, "wrapper/rethrow-in-nested-block/expected.js", "top-level code", 1, 16);
 }

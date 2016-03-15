@@ -2,9 +2,9 @@ try {
   function f() {
     try {
       console.log(arguments);
-    } catch (e) {
-      reportError(e, "wrapper/decl/expected.js", "f", 1, 3);
-      throw e;
+    } catch (_e) {
+      reportError(_e, "wrapper/decl/expected.js", "f", 1, 3);
+      throw _e;
     }
   }
   f();
@@ -13,6 +13,6 @@ try {
     //empty
   }
   g();
-} catch (e) {
-  reportError(e, "wrapper/decl/expected.js", "top-level code", 1, 9);
+} catch (_e2) {
+  reportError(_e2, "wrapper/decl/expected.js", "top-level code", 1, 9);
 }

@@ -17,17 +17,17 @@ ${error.name}: ${error.message}
 const wrapProgram = template(`
   try {
     BODY
-  } catch(e) {
-    REPORT_ERROR(e, FILENAME, FUNCTION_NAME, LINE_START, LINE_END)
+  } catch(ERROR_VARIABLE_NAME) {
+    REPORT_ERROR(ERROR_VARIABLE_NAME, FILENAME, FUNCTION_NAME, LINE_START, LINE_END)
   }
 `)
 
 const wrapFunction = template(`{
   try {
     BODY
-  } catch(e) {
-    REPORT_ERROR(e, FILENAME, FUNCTION_NAME, LINE_START, LINE_END)
-    throw e
+  } catch(ERROR_VARIABLE_NAME) {
+    REPORT_ERROR(ERROR_VARIABLE_NAME, FILENAME, FUNCTION_NAME, LINE_START, LINE_END)
+    throw ERROR_VARIABLE_NAME
   }
 }`)
 
@@ -75,7 +75,7 @@ module.exports = {
     }
 
     filename = this.opts.filename || file.opts.filenameRelative
-    if (!filename) {
+    if (!filename || filename.toLowerCase() === 'unknown') {
       throw new Error('babel-plugin-try-catch-wrapper: If babel cannot grab filename, you must pass it in')
     }
   },
@@ -92,13 +92,20 @@ module.exports = {
           return
         }
 
+        const loc = path.node.loc
+        const errorVariableName = path.scope.generateUidIdentifier('e')
+if (errorVariableName.name === '_e5') {
+	const name = '_e3'
+	console.log(path.scope.hasOwnBinding(name), path.scope.parentHasBinding(name), path.scope.hasUid(name), path.scope.hasGlobal(name), path.scope.hasReference(name))
+}
         const programBody = wrapProgram({
           BODY: body,
           FILENAME: t.StringLiteral(filename),
           FUNCTION_NAME: t.StringLiteral('top-level code'),
-          LINE_START: t.NumericLiteral(path.node.loc.start.line),
-          LINE_END: t.NumericLiteral(path.node.loc.end.line),
+          LINE_START: t.NumericLiteral(loc.start.line),
+          LINE_END: t.NumericLiteral(loc.end.line),
           REPORT_ERROR: t.identifier(state.opts.reportError),
+          ERROR_VARIABLE_NAME: errorVariableName,
         })
         path.replaceWith(t.Program([programBody]))
       }
@@ -126,6 +133,7 @@ module.exports = {
         }
 
         const loc = path.node.loc
+        const errorVariableName = path.scope.generateUidIdentifier('e')
 
         path.get('body').replaceWith(wrapFunction({
           BODY: body,
@@ -134,6 +142,7 @@ module.exports = {
           LINE_START: t.NumericLiteral(loc.start.line),
           LINE_END: t.NumericLiteral(loc.end.line),
           REPORT_ERROR: t.identifier(state.opts.reportError),
+          ERROR_VARIABLE_NAME: errorVariableName,
         }))
       }
     },

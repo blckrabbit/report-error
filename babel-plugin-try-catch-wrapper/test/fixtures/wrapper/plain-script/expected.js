@@ -4,14 +4,14 @@ try {
   function print() {
     try {
       consol.log(arguments);
-    } catch (e) {
-      reportError(e, 'wrapper/plain-script/expected.js', 'print', 3, 5);
-      throw e;
+    } catch (_e) {
+      reportError(_e, 'wrapper/plain-script/expected.js', 'print', 3, 5);
+      throw _e;
     }
   }
 
   print('play babel');
   prin('play babel');
-} catch (e) {
-  reportError(e, 'wrapper/plain-script/expected.js', 'top-level code', 1, 8);
+} catch (_e2) {
+  reportError(_e2, 'wrapper/plain-script/expected.js', 'top-level code', 1, 8);
 }

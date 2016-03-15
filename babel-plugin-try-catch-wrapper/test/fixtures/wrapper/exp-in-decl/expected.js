@@ -5,19 +5,19 @@ try {
       var g = function g() {
         try {
           console.log(arguments);
-        } catch (e) {
-          reportError(e, "wrapper/exp-in-decl/expected.js", "anonymous function", 3, 5);
-          throw e;
+        } catch (_e) {
+          reportError(_e, "wrapper/exp-in-decl/expected.js", "anonymous function", 3, 5);
+          throw _e;
         }
       };
       g();
-    } catch (e) {
-      reportError(e, "wrapper/exp-in-decl/expected.js", "f", 1, 7);
-      throw e;
+    } catch (_e2) {
+      reportError(_e2, "wrapper/exp-in-decl/expected.js", "f", 1, 7);
+      throw _e2;
     }
   }
 
   f();
-} catch (e) {
-  reportError(e, "wrapper/exp-in-decl/expected.js", "top-level code", 1, 9);
+} catch (_e3) {
+  reportError(_e3, "wrapper/exp-in-decl/expected.js", "top-level code", 1, 9);
 }
