@@ -4,6 +4,7 @@ var _ = require('lodash');
 var babel = require('babel-core');
 var path = require('path');
 var through = require('through2');
+var wrapper = require('babel-plugin-try-catch-wrapper');
 
 module.exports = function () {
   var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
@@ -14,7 +15,7 @@ module.exports = function () {
   var bufferContents = function bufferContents(file, enc, cb) {
     var result = babel.transform(file.contents.toString(enc), {
       compact: true,
-      plugins: [['babel-plugin-try-catch-wrapper', {
+      plugins: [[wrapper, {
         reportError: reportError,
         filename: path.relative(file.cwd || file.base, _.last(file.history))
       }]]

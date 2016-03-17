@@ -1,6 +1,6 @@
 {
   "name": "gulp-try-catch-wrapper",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "gulp plugin of babel-plugin-try-catch-wrapper",
   "main": "lib/index.js",
   "file": [
