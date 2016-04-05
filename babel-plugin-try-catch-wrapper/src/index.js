@@ -124,7 +124,7 @@ module.exports = {
           functionName = path.node.id.name
         } else {
           let newFunction = namedFunction(path)
-          if (newFunction) {
+          if (newFunction && newFunction.id) {
             functionName = newFunction.id.name
           }
         }
