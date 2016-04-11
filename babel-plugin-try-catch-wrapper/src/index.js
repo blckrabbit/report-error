@@ -1,8 +1,8 @@
 'use strict'
 
-const namedFunction = require('babel-helper-function-name')
-const t = require('babel-types')
-const template = require('babel-template')
+import namedFunction from 'babel-helper-function-name'
+import template from 'babel-template'
+import * as t from 'babel-types'
 
 /*
 stack format:
@@ -68,11 +68,12 @@ const shouldSkip = (() => {
 // filename of which is being processed
 let filename
 
-module.exports = {
+// function name reporting error, default: 'reportError'
+let reportError
+
+export default {
   pre(file) {
-    if (!this.opts.reportError) {
-      throw new Error('babel-ie-catch: You must pass in the function name reporting error')
-    }
+    ({ reportError = 'reportError' } = this.opts)
 
     filename = this.opts.filename || file.opts.filenameRelative
     if (!filename || filename.toLowerCase() === 'unknown') {
@@ -101,7 +102,7 @@ module.exports = {
           FUNCTION_NAME: t.StringLiteral('top-level code'),
           LINE_START: t.NumericLiteral(loc.start.line),
           LINE_END: t.NumericLiteral(loc.end.line),
-          REPORT_ERROR: t.identifier(state.opts.reportError),
+          REPORT_ERROR: t.identifier(reportError),
           ERROR_VARIABLE_NAME: errorVariableName,
         })
         path.replaceWith(t.Program([programBody]))
@@ -138,7 +139,7 @@ module.exports = {
           FUNCTION_NAME: t.StringLiteral(functionName),
           LINE_START: t.NumericLiteral(loc.start.line),
           LINE_END: t.NumericLiteral(loc.end.line),
-          REPORT_ERROR: t.identifier(state.opts.reportError),
+          REPORT_ERROR: t.identifier(reportError),
           ERROR_VARIABLE_NAME: errorVariableName,
         }))
       }
@@ -150,7 +151,7 @@ module.exports = {
         }
 
         // variable name of error caught
-        var errorVariableName = path.node.param.name
+        const errorVariableName = path.node.param.name
 
         path.node.body.body.unshift(
           markErrorResolved({
@@ -165,7 +166,7 @@ module.exports = {
           return
         }
 
-        var error = path.node.argument
+        const error = path.node.argument
         if (error.type === 'Identifier') {
           path.insertBefore(
             markErrorUnresolved({
