@@ -4,7 +4,7 @@ try {
       try {
         console.log(arguments);
       } catch (_e) {
-        reportError(_e, "wrapper/method/expected.js", "f", 2, 4);
+        reportError(_e, "wrapper/method/expected.js", "f", 2, 5);
         throw _e;
       }
     },
@@ -13,5 +13,5 @@ try {
     }
   };
 } catch (_e2) {
-  reportError(_e2, "wrapper/method/expected.js", "top-level code", 1, 8);
+  reportError(_e2, "wrapper/method/expected.js", "top-level code", 1, 0);
 }

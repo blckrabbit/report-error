@@ -1,13 +1,13 @@
 {
   "name": "babel-plugin-try-catch-wrapper",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "wrap all code in try-catch for reporting js runtime error",
   "main": "lib/index.js",
   "files": [
     "lib/"
   ],
   "scripts": {
-    "test": "babel src -d lib; ln -s .. node_modules/babel-plugin-try-catch-wrapper; mocha --ui tdd",
+    "test": "babel src -d lib; unlink node_modules/babel-plugin-try-catch-wrapper; ln -s .. node_modules/babel-plugin-try-catch-wrapper; mocha --ui tdd",
     "prepublish": "babel src -d lib",
     "dev": "babel src -d lib -w"
   },

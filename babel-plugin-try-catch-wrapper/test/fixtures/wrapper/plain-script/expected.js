@@ -5,7 +5,7 @@ try {
     try {
       consol.log(arguments);
     } catch (_e) {
-      reportError(_e, 'wrapper/plain-script/expected.js', 'print', 3, 5);
+      reportError(_e, 'wrapper/plain-script/expected.js', 'print', 3, 0);
       throw _e;
     }
   }
@@ -13,5 +13,5 @@ try {
   print('play babel');
   prin('play babel');
 } catch (_e2) {
-  reportError(_e2, 'wrapper/plain-script/expected.js', 'top-level code', 1, 8);
+  reportError(_e2, 'wrapper/plain-script/expected.js', 'top-level code', 1, 0);
 }
