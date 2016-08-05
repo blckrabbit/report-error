@@ -19,5 +19,5 @@ try {
     }
   }
 } catch (_e) {
-  reportError(_e, "wrapper/try-in-catch/expected.js", "top-level code", 1, 13);
+  reportError(_e, "wrapper/try-in-catch/expected.js", "top-level code", 1, 0);
 }

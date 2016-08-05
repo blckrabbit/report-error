@@ -9,5 +9,5 @@ try {
     throw e;
   }
 } catch (_e) {
-  reportError(_e, "wrapper/rethrow/expected.js", "top-level code", 1, 6);
+  reportError(_e, "wrapper/rethrow/expected.js", "top-level code", 1, 0);
 }

@@ -18,7 +18,7 @@ const wrapProgram = template(`
   try {
     BODY
   } catch(ERROR_VARIABLE_NAME) {
-    REPORT_ERROR(ERROR_VARIABLE_NAME, FILENAME, FUNCTION_NAME, LINE_START, LINE_END)
+    REPORT_ERROR(ERROR_VARIABLE_NAME, FILENAME, FUNCTION_NAME, LINE, COLUMN)
   }
 `)
 
@@ -26,7 +26,7 @@ const wrapFunction = template(`{
   try {
     BODY
   } catch(ERROR_VARIABLE_NAME) {
-    REPORT_ERROR(ERROR_VARIABLE_NAME, FILENAME, FUNCTION_NAME, LINE_START, LINE_END)
+    REPORT_ERROR(ERROR_VARIABLE_NAME, FILENAME, FUNCTION_NAME, LINE, COLUMN)
     throw ERROR_VARIABLE_NAME
   }
 }`)
@@ -100,8 +100,8 @@ export default {
           BODY: body,
           FILENAME: t.StringLiteral(filename),
           FUNCTION_NAME: t.StringLiteral('top-level code'),
-          LINE_START: t.NumericLiteral(loc.start.line),
-          LINE_END: t.NumericLiteral(loc.end.line),
+          LINE: t.NumericLiteral(loc.start.line),
+          COLUMN: t.NumericLiteral(loc.start.column),
           REPORT_ERROR: t.identifier(reportError),
           ERROR_VARIABLE_NAME: errorVariableName,
         })
@@ -137,8 +137,8 @@ export default {
           BODY: body,
           FILENAME: t.StringLiteral(filename),
           FUNCTION_NAME: t.StringLiteral(functionName),
-          LINE_START: t.NumericLiteral(loc.start.line),
-          LINE_END: t.NumericLiteral(loc.end.line),
+          LINE: t.NumericLiteral(loc.start.line),
+          COLUMN: t.NumericLiteral(loc.start.column),
           REPORT_ERROR: t.identifier(reportError),
           ERROR_VARIABLE_NAME: errorVariableName,
         }))
