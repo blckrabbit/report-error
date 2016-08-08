@@ -71,6 +71,8 @@ let filename
 // function name reporting error, default: 'reportError'
 let reportError
 
+export {version} from '../package.json'
+
 export default {
   pre(file) {
     ({ reportError = 'reportError' } = this.opts)
