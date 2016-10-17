@@ -17,34 +17,42 @@ report js runtime error
     ]
   })
   ```
-3. provide reportError function before wrapper js
+3. provide reportError function before wrapped js
 
   ```javascript
-  // this is the function which name is passed into the wrapper plugin
+  // this is the function which name is passed into the transformer plugin
   window.reportError = (function() {
-    var records = {}
-    return function(e, filename, functionName, lineStart, lineEnd) {
+    var errors = {}
+    return function(e, filename, fnName, line, col) {
       if (!e._t) {
         // add timestamp for identifing
-        e._t = new Date().getTime()
-        records[e._t] = e
-        e._stack = (e.name + ': ' + e.message)
+        e._t = +new Date()
+        
+        var error = new Error
+        errors[e._t] = error
+        
+        error.columnNumber = col
+        error.fileName = filename
+        error.lineNumber = line
+        error.message = e.message || e.description
+        error.name = e.name
+        error.stack = e.stack || (error.name + ': ' + error.message)
 
         setTimeout(function() {
-          delete records[e._t]
+          delete errors[e._t]
           // ignore resolved error
           if (e._r) {
             return
           }
-
-          //!!! IMPORTANT add your own code reporting unresolved errors here below
-          console.log(e._t, e._stack)
-          //!!! IMPORTANT add your own code reporting unresolved errors here above
+          // report error here, take raven.js as an example
+          window.Raven && Raven.captureException(error)
         }, 10)
       }
-      if (filename) {
-        //format stack
-        e._stack += '\n\t@ ' + functionName + ' (' + filename + ':' + lineStart + '-' + lineEnd + ')'
+      
+      var error = errors[e._t]
+      if (!e.stack) {
+        // format Error stack for IE <= 9 and similar browsers
+        error.stack += '\n\tat ' + fnName + ' (http://your-assets-server-domain-and-path/' + filename + ':' + line + ':' + col + ')'
       }
     }
   })()
