@@ -1,6 +1,6 @@
 {
   "name": "gulp-try-catch-wrapper",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "gulp plugin of babel-plugin-try-catch-wrapper",
   "main": "lib/index.js",
   "file": [
@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "babel-core": "^6.7.0",
-    "babel-plugin-try-catch-wrapper": "^0.1.6",
+    "babel-plugin-try-catch-wrapper": "^0.2.2",
     "lodash": "^4.6.1",
     "through2": "^2.0.1"
   }
